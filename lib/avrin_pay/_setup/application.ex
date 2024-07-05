@@ -12,7 +12,7 @@ defmodule AvrinPay.Setup.Application do
       event_store: AvrinPay.Setup.EventStore
     ]
 
-  # router AvrinNotify.Notification.Sms
+  router AvrinPay.Transaction.Paystack
 
   @impl true
   def start(_type, _args) do

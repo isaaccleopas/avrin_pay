@@ -28,3 +28,5 @@ config :avrin_pay, AvrinPay.Setup.Repo,
   pool_size: 10
 
 config :avrin_pay, consistency: :strong
+
+import_config "#{config_env()}.exs"
