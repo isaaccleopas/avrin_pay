@@ -17,7 +17,7 @@ defmodule AvrinPay.Transaction.Paystack do
   end
 
   def execute(_aggregate_state, %CreateInvoice{} = command) do
-    InvoiceCreatedV1.create(%{invoice_id: command.invoice_id, amount: command.amount, title: command.title, description: command.description})
+    InvoiceCreatedV1.create(%{invoice_id: command.invoice_id, amount: command.amount, name: command.name, description: command.description})
   end
 
   def execute(_aggregate_state, %PaystackInitializePayment{} = command) do

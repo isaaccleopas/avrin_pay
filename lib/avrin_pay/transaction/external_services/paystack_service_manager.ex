@@ -1,7 +1,6 @@
 defmodule AvrinPay.Transaction.ExternalServices.PaystackServiceManager do
   alias AvrinPay.Transaction.Events.PaystackPaymentInitializedV1
 
-
   use Commanded.Event.Handler,
     application: AvrinPay.Setup.Application,
     name: __MODULE__
