@@ -15,7 +15,6 @@ defmodule AvrinPay.Transaction.ExternalServices.PaystackServiceManager do
     unless Application.get_env(:avrin_pay, :mock_api_call?) do
       case Paystack.Transaction.initialize(%{email: email, amount: amount}) do
         {:ok, %Paystack.Response{} = response} -> {:ok, response}
-        # IO.inspect(response)
         {:error, error} -> {:error, error}
       end
     else
