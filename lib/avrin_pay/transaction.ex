@@ -6,5 +6,6 @@ defmodule AvrinPay.Transaction do
       define :paystack_initialize_payment, action: :dispatch, args: [:amount, :email]
     end
     resource AvrinPay.Transaction.Events.PaystackPaymentInitializedV1
+    resource AvrinPay.Transaction.Paystack
   end
 end

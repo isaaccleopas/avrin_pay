@@ -10,18 +10,10 @@ defmodule AvrinPay.Transaction.Events.PaystackPaymentInitializedV1 do
   actions do
     default_accept [:payment_id, :amount, :email]
     defaults [:create, :read]
+  end
 
-    create :dispatch do
-      change fn changeset, _context ->
-        Ash.Changeset.after_action(changeset, fn changeset, command ->
-          case AvrinPay.Setup.Application.dispatch(command) do
-            :ok -> {:ok, command}
-            {:error, error} -> {:error, error}
-          end
-
-          {:ok, command}
-        end)
-      end
-    end
+  code_interface do
+    define :create
+    define :read
   end
 end
