@@ -8,6 +8,8 @@ config :avrin_pay, event_stores: [AvrinPay.Setup.EventStore]
 
 config :paystack, secret_key: System.get_env("PAYSTACK_SECRET_KEY")
 
+config :avrin_pay, ash_domains: [AvrinPay.Transaction]
+
 config :avrin_pay, AvrinPay.Setup.Repo,
   username: "postgres",
   password: "postgres",
@@ -26,3 +28,5 @@ config :avrin_pay, AvrinPay.Setup.Repo,
   pool_size: 10
 
 config :avrin_pay, consistency: :strong
+
+import_config "#{config_env()}.exs"
