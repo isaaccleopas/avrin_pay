@@ -10,16 +10,9 @@ defmodule AvrinPay.Transaction.ExternalServices.PaystackServiceManager do
     :ok
   end
 
-  def initialize(email, amount, opts \\ []) do
-    callback_url = Keyword.get(opts, :callback_url, nil)
-    params = %{
-      email: email,
-      amount: amount
-    }
-    |> Map.put_new(:callback_url, callback_url)
-
+  def initialize(email, amount) do
     unless Application.get_env(:avrin_pay, :mock_api_call?) do
-      case Paystack.Transaction.initialize(params) do
+      case Paystack.Transaction.initialize(%{email: email, amount: amount}) do
         {:ok, %Paystack.Response{} = response} -> {:ok, response}
         {:error, error} -> {:error, error}
       end
