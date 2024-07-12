@@ -1,4 +1,4 @@
-defmodule AvrinPay.Transaction.Commands.PaystackInitializePayment do
+defmodule AvrinPay.Transaction.Commands.InitializePaystackPayment do
   use Ash.Resource, domain: AvrinPay.Transaction
 
   attributes do
@@ -14,7 +14,6 @@ defmodule AvrinPay.Transaction.Commands.PaystackInitializePayment do
 
     create :dispatch do
       change fn changeset, _context ->
-        # Access email and amount from changeset data
         email = Ash.Changeset.get_argument_or_attribute(changeset, :email)
         amount = Ash.Changeset.get_argument_or_attribute(changeset, :amount)
 

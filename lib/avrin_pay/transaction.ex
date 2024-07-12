@@ -2,7 +2,7 @@ defmodule AvrinPay.Transaction do
   use Ash.Domain
 
   resources do
-    resource AvrinPay.Transaction.Commands.PaystackInitializePayment do
+    resource AvrinPay.Transaction.Commands.InitializePaystackPayment do
       define :paystack_initialize_payment, action: :dispatch, args: [:email, :amount]
     end
     resource AvrinPay.Transaction.Commands.CreateInvoice do

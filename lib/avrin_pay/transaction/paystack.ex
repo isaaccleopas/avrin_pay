@@ -5,10 +5,10 @@ defmodule AvrinPay.Transaction.Paystack do
   alias AvrinPay.Transaction.Events.InvoiceCreatedV1
   alias AvrinPay.Transaction.Commands.CreateInvoice
   alias AvrinPay.Transaction.Events.PaystackPaymentInitializedV1
-  alias AvrinPay.Transaction.Commands.PaystackInitializePayment
+  alias AvrinPay.Transaction.Commands.InitializePaystackPayment
 
   dispatch CreateInvoice, to:  __MODULE__, identity: :invoice_id
-  dispatch PaystackInitializePayment, to: __MODULE__, identity: :payment_id
+  dispatch InitializePaystackPayment, to: __MODULE__, identity: :payment_id
 
 
   attributes do
@@ -20,7 +20,7 @@ defmodule AvrinPay.Transaction.Paystack do
     InvoiceCreatedV1.create(%{invoice_id: command.invoice_id, amount: command.amount, name: command.name, description: command.description})
   end
 
-  def execute(_aggregate_state, %PaystackInitializePayment{} = command) do
+  def execute(_aggregate_state, %InitializePaystackPayment{} = command) do
     PaystackPaymentInitializedV1.create(%{payment_id: command.payment_id, amount: command.amount, email: command.email})
   end
 
