@@ -7,7 +7,7 @@ defmodule AvrinPay.Transaction.Supervisor do
 
   def init(_init_arg) do
     children = [
-      # AvrinPay.Transaction.ExternalServices.PaystackServiceManager,
+      AvrinPay.Transaction.ExternalServices.PaystackServiceManager,
       AvrinPay.Transaction.ExternalServices.PaystackInvoiceServiceManager
     ]
 
