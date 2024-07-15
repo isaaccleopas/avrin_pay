@@ -5,11 +5,12 @@ defmodule AvrinPay.Transaction.Commands.InitializePaystackPayment do
     attribute :payment_id, :uuid, allow_nil?: false, primary_key?: true, default: &Ash.UUID.generate/0
     attribute :amount, :integer, allow_nil?: false, description: "The amount in kobo"
     attribute :email, :string, allow_nil?: false
+    attribute :callback_url, :string, allow_nil?: true
     attribute :authorization_url, :string, allow_nil?: true
   end
 
   actions do
-    default_accept [:payment_id, :amount, :email, :authorization_url]
+    default_accept [:payment_id, :amount, :email, :callback_url, :authorization_url]
     defaults [:create, :read]
 
     create :dispatch do
