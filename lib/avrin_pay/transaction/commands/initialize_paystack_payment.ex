@@ -6,11 +6,11 @@ defmodule AvrinPay.Transaction.Commands.InitializePaystackPayment do
     attribute :amount, :integer, allow_nil?: false, description: "The amount in kobo"
     attribute :email, :string, allow_nil?: false
     attribute :callback_url, :string, allow_nil?: true
-    attribute :authorization_url, :string, allow_nil?: true
+    attribute :paystack_authorization_url, :string, allow_nil?: true
   end
 
   actions do
-    default_accept [:payment_id, :amount, :email, :callback_url, :authorization_url]
+    default_accept [:payment_id, :amount, :email, :callback_url, :paystack_authorization_url]
     defaults [:create, :read]
 
     create :dispatch do
@@ -21,7 +21,7 @@ defmodule AvrinPay.Transaction.Commands.InitializePaystackPayment do
 
         case AvrinPay.Transaction.ExternalServices.PaystackServiceManager.initialize(email, amount, callback_url) do
           {:ok, %Paystack.Response{data: %{"authorization_url" => authorization_url}}} ->
-            Ash.Changeset.change_attribute(changeset, :authorization_url, authorization_url)
+            Ash.Changeset.change_attribute(changeset, :paystack_authorization_url, authorization_url)
 
           _ ->
             Ash.Changeset.add_error(changeset, "Paystack API Error")
