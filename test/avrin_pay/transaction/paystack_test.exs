@@ -15,7 +15,7 @@ defmodule AvrinPay.Transaction.PaystackTest do
           assert event.email == command.email
           assert event.amount == command.amount
           assert event.callback_url == command.callback_url
-          # assert event.paystack_authorization_url == command.paystack_authorization_url
+          assert event.paystack_authorization_url == command.paystack_authorization_url
         end
       )
     end

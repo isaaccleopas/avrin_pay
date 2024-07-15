@@ -13,7 +13,7 @@ defmodule AvrinPay.Transaction.Paystack do
   end
 
   def execute(_aggregate_state, %InitializePaystackPayment{} = command) do
-    PaystackPaymentInitializedV1.create(%{payment_id: command.payment_id, amount: command.amount, email: command.email})
+    PaystackPaymentInitializedV1.create(%{payment_id: command.payment_id, amount: command.amount, email: command.email, callback_url: command.callback_url, paystack_authorization_url: command.paystack_authorization_url})
   end
 
   def apply(state, _event) do
