@@ -6,10 +6,11 @@ defmodule AvrinPay.Transaction.Events.PaystackPaymentInitializedV1 do
     attribute :payment_id, :uuid, allow_nil?: false, primary_key?: true
     attribute :amount, :integer, allow_nil?: false, description: "The amount in kobo"
     attribute :email, :string, allow_nil?: false
+    attribute :callback_url, :string, allow_nil?: true
   end
 
   actions do
-    default_accept [:payment_id, :amount, :email]
+    default_accept [:payment_id, :amount, :email, :callback_url]
     defaults [:create, :read]
   end
 

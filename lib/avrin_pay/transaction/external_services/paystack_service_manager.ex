@@ -5,14 +5,14 @@ defmodule AvrinPay.Transaction.ExternalServices.PaystackServiceManager do
     application: AvrinPay.Setup.Application,
     name: __MODULE__
 
-  def handle(%PaystackPaymentInitializedV1{email: email, amount: amount}, _state) do
-    {:ok, _response} = initialize(email, amount)
+  def handle(%PaystackPaymentInitializedV1{email: email, amount: amount, callback_url: callback_url}, _state) do
+    {:ok, _response} = initialize(email, amount, callback_url)
     :ok
   end
 
-  def initialize(email, amount) do
+  def initialize(email, amount, callback_url) do
     unless Application.get_env(:avrin_pay, :mock_api_call?) do
-      case Paystack.Transaction.initialize(%{email: email, amount: amount}) do
+      case Paystack.Transaction.initialize(%{email: email, amount: amount, callback_url: callback_url}) do
         {:ok, %Paystack.Response{} = response} -> {:ok, response}
         {:error, error} -> {:error, error}
       end

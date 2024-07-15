@@ -17,8 +17,9 @@ defmodule AvrinPay.Transaction.Commands.InitializePaystackPayment do
       change fn changeset, _context ->
         email = Ash.Changeset.get_argument_or_attribute(changeset, :email)
         amount = Ash.Changeset.get_argument_or_attribute(changeset, :amount)
+        callback_url = Ash.Changeset.get_argument_or_attribute(changeset, :callback_url)
 
-        case AvrinPay.Transaction.ExternalServices.PaystackServiceManager.initialize(email, amount) do
+        case AvrinPay.Transaction.ExternalServices.PaystackServiceManager.initialize(email, amount, callback_url) do
           {:ok, %Paystack.Response{data: %{"authorization_url" => authorization_url}}} ->
             Ash.Changeset.change_attribute(changeset, :authorization_url, authorization_url)
 
