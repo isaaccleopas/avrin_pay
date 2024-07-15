@@ -12,7 +12,7 @@ defmodule AvrinPay.Setup.Application do
       event_store: AvrinPay.Setup.EventStore
     ]
 
-  router AvrinPay.Transaction.Paystack
+  router(AvrinPay.Transaction.Payment)
 
   @impl true
   def start(_type, _args) do
@@ -20,7 +20,7 @@ defmodule AvrinPay.Setup.Application do
       AvrinPay.Setup.Repo,
       # Register Application
       __MODULE__,
-      AvrinPay.Transaction.Supervisor,
+      AvrinPay.Transaction.Supervisor
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

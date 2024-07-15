@@ -1,4 +1,4 @@
-defmodule AvrinPay.Transaction.PaystackTest do
+defmodule AvrinPay.Transaction.PaymentTest do
   alias AvrinPay.Setup.Application
   alias AvrinPay.Transaction.Events.PaystackPaymentInitializedV1
   use AvrinPay.DataCase
@@ -7,9 +7,16 @@ defmodule AvrinPay.Transaction.PaystackTest do
 
   describe "Paystack" do
     test "GIVEN: a paystack initialize command is dispatched, WHEN: the command is executed, THEN: paystack payment is initialized" do
-      {:ok, command} = AvrinPay.Transaction.initialize_paystack_payment("example@gmail.com", 50000, "www.example.com")
+      {:ok, command} =
+        AvrinPay.Transaction.initialize_paystack_payment(
+          "example@gmail.com",
+          50000,
+          "www.example.com"
+        )
 
-      assert_receive_event(Application, PaystackPaymentInitializedV1,
+      assert_receive_event(
+        Application,
+        PaystackPaymentInitializedV1,
         fn event -> event.payment_id == command.payment_id end,
         fn event ->
           assert event.email == command.email
