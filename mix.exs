@@ -40,7 +40,8 @@ defmodule AvrinPay.MixProject do
 
   defp aliases do
     [
-      "avrin_pay.setup": ["deps.get", "ecto.setup", "event_store.setup"],
+      setup: ["deps.get", "avrin_pay.setup", "ecto.setup", "event_store.setup"],
+      "avrin_pay.setup": ["run -e 'Mix.Tasks.AvrinPay.Setup.run([])'"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       "event_store.setup": ["event_store.create", "event_store.init"],
