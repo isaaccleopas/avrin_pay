@@ -36,61 +36,35 @@ config :avrin_pay,
 
 # Database configurations
 config :avrin_pay, AvrinPay.Setup.Repo,
-  username: "postgres",
-  password: "postgres",
-  hostname: "localhost",
-  database: "avrin_pay_test",
+  username: System.get_env("DB_USERNAME"),
+  password: System.get_env("DB_PASSWORD"),
+  hostname: System.get_env("DB_HOSTNAME"),
+  database: System.get_env("DB_NAME"),
   pool_size: 10
 
 config :avrin_pay, AvrinPay.Setup.EventStore,
   serializer: Commanded.Serialization.JsonSerializer,
-  username: "postgres",
-  password: "postgres",
-  database: "avrin_pay_test",
+  username: System.get_env("EVENT_STORE_USERNAME"),
+  password: System.get_env("EVENT_STORE_PASSWORD"),
+  database: System.get_env("EVENT_STORE_DB_NAME"),
   schema: "event_store",
-  hostname: "localhost",
+  hostname: System.get_env("EVENT_STORE_HOSTNAME"),
   pool_size: 10
   ```
 
-This is the sample of how the functions are to be used in another application.
-1. Function for creating invoice using paystack API endpoint for invoice creation.
+In your mix.exs file under
 ```elixir
-AvrinPay.Transaction.create_invoice(amount, name, description)
-eg.
-AvrinPay.Transaction.create_invoice(50000, "Avrin Innovations", "Paymenet for School fee")
-```
-Response
-```elixir
-  {:ok,
-    %{
-      status: true,
-      message: "Page created",
-      data: %{
-        name: "Avrin Innovations",
-        description: "Paymenet for School fee",
-        amount: 50000,
-        integration: 1175909,
-        domain: "test",
-        slug: "nz4jhoa-74",
-        currency: "NGN",
-        type: "payment",
-        collect_phone: false,
-        active: true,
-        published: true,
-        migrate: false,
-        id: 1563546,
-        createdAt: "2024-07-05T14:47:05.494Z",
-        updatedAt: "2024-07-05T14:47:05.494Z"
-      }
-    }
-  }
+defp aliases do
+  setup: ["deps.get", "ecto.setup", "avrin_pay.setup", ....],
+  "avrin_pay.setup": ["run -e 'Mix.Tasks.AvrinPay.Setup.run([])'"],
+end
 ```
 
-2. Function for initialiazing payment using paystack API endpoint for transaction.
+1. Function for initialiazing payment using paystack API endpoint for transaction.
 ```elixir
-AvrinPay.Transaction.paystack_initialize_payment(email, amount)
+AvrinPay.Transaction.initialize_paystack_payment(email, amount, callback_url)
 eg.
-AvrinPay.Transaction.paystack_initialize_payment("example@gmail.com", 50000)
+AvrinPay.Transaction.initialize_paystack_payment("avrin@example.com", 50000, "www.example.com")
 ```
 Response
 ```elixir
