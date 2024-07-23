@@ -22,9 +22,44 @@ defmodule AvrinPay.Transaction.PaymentTest do
           assert event.email == command.email
           assert event.amount == command.amount
           assert event.callback_url == command.callback_url
-          assert event.paystack_authorization_url == command.paystack_authorization_url
+
+          paystack_response = convert_data_map_to_string_keys(event.paystack_response)
+          assert paystack_response == command.paystack_response
         end
       )
     end
+  end
+
+  defp convert_data_map_to_string_keys(paystack_response) do
+    paystack_response
+    |> Enum.map(fn
+      {:data, value} ->
+        value =
+          value
+          |> Enum.map(fn {key, value} -> {to_string(key), value} end)
+          |> Enum.into(%{})
+
+        {:data, value}
+
+      {key, value} ->
+        {key, value}
+    end)
+    |> Enum.into(%{})
+
+    # paystack_response
+    # |> Enum.map(fn {key, value} ->
+    #   case key do
+    #     :data ->
+    #       # change keys to strings
+    #       value =
+    #         value
+    #         |> Enum.map(fn {key, value} -> {to_string(key), value} end)
+    #         |> Enum.into(%{})
+    #       {key, value}
+    #     _ ->
+    #       {key, value}
+    #   end
+    # end)
+    # |> Enum.into(%{})
   end
 end
