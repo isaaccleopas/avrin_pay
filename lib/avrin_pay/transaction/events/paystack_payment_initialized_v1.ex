@@ -7,7 +7,7 @@ defmodule AvrinPay.Transaction.Events.PaystackPaymentInitializedV1 do
     attribute :amount, :integer, allow_nil?: false, description: "The amount in kobo"
     attribute :email, :string, allow_nil?: false
     attribute :callback_url, :string, allow_nil?: true
-    attribute :paystack_response, :map, allow_nil?: false
+    attribute :paystack_response, :string, allow_nil?: false
   end
 
   actions do

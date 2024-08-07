@@ -6,7 +6,7 @@ defmodule AvrinPay.Transaction.Commands.InitializePaystackPayment do
     attribute :amount, :integer, allow_nil?: false, description: "The amount in kobo"
     attribute :email, :string, allow_nil?: false
     attribute :callback_url, :string, allow_nil?: true
-    attribute :paystack_response, :map, allow_nil?: true
+    attribute :paystack_response, :string, allow_nil?: true
   end
 
   actions do
@@ -26,11 +26,8 @@ defmodule AvrinPay.Transaction.Commands.InitializePaystackPayment do
             # Extract the authorization_url from the nested data map
             authorization_url = paystack_response_map.data["authorization_url"]
 
-            # Create a new map with the authorization_url in the desired format
-            formatted_response = %{authorization_url: authorization_url}
-
             # Update the changeset with the formatted response
-            Ash.Changeset.change_attribute(changeset, :paystack_response, formatted_response)
+            Ash.Changeset.change_attribute(changeset, :paystack_response, authorization_url)
 
           _ ->
             Ash.Changeset.add_error(changeset, "Paystack API Error")
