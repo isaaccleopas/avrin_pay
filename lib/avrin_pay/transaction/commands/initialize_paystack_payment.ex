@@ -20,9 +20,18 @@ defmodule AvrinPay.Transaction.Commands.InitializePaystackPayment do
         callback_url = Ash.Changeset.get_argument_or_attribute(changeset, :callback_url)
 
         case AvrinPay.Transaction.ExternalServices.PaystackServiceManager.initialize(email, amount, callback_url) do
-          {:ok, %Paystack.Response{} = paystack_response_struct} ->
-            paystack_response = Map.from_struct(paystack_response_struct)
-            Ash.Changeset.change_attribute(changeset, :paystack_response, paystack_response)
+          {:ok, paystack_response} ->
+            # Convert the response struct to a map
+            paystack_response_map = Map.from_struct(paystack_response)
+            # Extract the authorization_url from the nested data map
+            authorization_url = paystack_response_map.data["authorization_url"]
+
+            # Create a new map with the authorization_url in the desired format
+            formatted_response = %{authorization_url: authorization_url}
+            IO.inspect(formatted_response)
+
+            # Update the changeset with the formatted response
+            Ash.Changeset.change_attribute(changeset, :paystack_response, formatted_response)
 
           _ ->
             Ash.Changeset.add_error(changeset, "Paystack API Error")
