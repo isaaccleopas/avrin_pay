@@ -28,7 +28,6 @@ defmodule AvrinPay.Transaction.Commands.InitializePaystackPayment do
 
             # Create a new map with the authorization_url in the desired format
             formatted_response = %{authorization_url: authorization_url}
-            IO.inspect(formatted_response)
 
             # Update the changeset with the formatted response
             Ash.Changeset.change_attribute(changeset, :paystack_response, formatted_response)
