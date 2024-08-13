@@ -18,6 +18,7 @@ defmodule AvrinPay.Transaction.Payment do
       amount: command.amount,
       email: command.email,
       callback_url: command.callback_url,
+      paystack_authorization_url: command.paystack_authorization_url,
       paystack_response: command.paystack_response
     })
   end

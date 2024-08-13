@@ -6,11 +6,12 @@ defmodule AvrinPay.Transaction.Commands.InitializePaystackPayment do
     attribute :amount, :integer, allow_nil?: false, description: "The amount in kobo"
     attribute :email, :string, allow_nil?: false
     attribute :callback_url, :string, allow_nil?: true
-    attribute :paystack_response, :string, allow_nil?: true
+    attribute :paystack_authorization_url, :string, allow_nil?: false
+    attribute :paystack_response, :map, allow_nil?: true
   end
 
   actions do
-    default_accept [:payment_id, :amount, :email, :callback_url, :paystack_response]
+    default_accept [:payment_id, :amount, :email, :callback_url, :paystack_authorization_url, :paystack_response]
     defaults [:create, :read]
 
     create :dispatch do
@@ -20,14 +21,23 @@ defmodule AvrinPay.Transaction.Commands.InitializePaystackPayment do
         callback_url = Ash.Changeset.get_argument_or_attribute(changeset, :callback_url)
 
         case AvrinPay.Transaction.ExternalServices.PaystackServiceManager.initialize(email, amount, callback_url) do
-          {:ok, paystack_response} ->
-            # Convert the response struct to a map
-            paystack_response_map = Map.from_struct(paystack_response)
-            # Extract the authorization_url from the nested data map
-            authorization_url = paystack_response_map.data["authorization_url"]
+          {:ok, %Paystack.Response{} = paystack_response_struct} ->
+            paystack_response = Map.from_struct(paystack_response_struct)
+            Ash.Changeset.change_attribute(changeset, :paystack_response, paystack_response)
 
-            # Update the changeset with the formatted response
-            Ash.Changeset.change_attribute(changeset, :paystack_response, authorization_url)
+          _ ->
+            Ash.Changeset.add_error(changeset, "Paystack API Error")
+        end
+      end
+
+      change fn changeset, _context ->
+        email = Ash.Changeset.get_argument_or_attribute(changeset, :email)
+        amount = Ash.Changeset.get_argument_or_attribute(changeset, :amount)
+        callback_url = Ash.Changeset.get_argument_or_attribute(changeset, :callback_url)
+
+        case AvrinPay.Transaction.ExternalServices.PaystackServiceManager.initialize(email, amount, callback_url) do
+          {:ok, %Paystack.Response{data: %{"authorization_url" => authorization_url}}} ->
+            Ash.Changeset.change_attribute(changeset, :paystack_authorization_url, authorization_url)
 
           _ ->
             Ash.Changeset.add_error(changeset, "Paystack API Error")

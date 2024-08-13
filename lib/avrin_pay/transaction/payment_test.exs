@@ -22,7 +22,9 @@ defmodule AvrinPay.Transaction.PaymentTest do
           assert event.email == command.email
           assert event.amount == command.amount
           assert event.callback_url == command.callback_url
+          assert event.paystack_authorization_url == command.paystack_authorization_url
 
+          # Assuming the event paystack_response is a map with string keys
           paystack_response = convert_data_map_to_string_keys(event.paystack_response)
           assert paystack_response == command.paystack_response
         end
