@@ -23,17 +23,20 @@ def deps do
   ]
 end
 ```
+
 Configuration Set the following environment variables in your application's config.exs:
 
 ```elixir
+config :paystack, secret_key: System.get_env("PAYSTACK_SECRET_KEY")
+
 config :avrin_pay,
   ash_domains: [AvrinPay.Transaction],
-  paystack: [
-    secret_key: System.get_env("PAYSTACK_SECRET_KEY"),
-    mock_api_call?: System.get_env("MOCK_API_CALL") == "true"
-  ],
   consistency: :strong
+```
 
+Configuration Set the following environment variables in your application's dev.exs and test.exs:
+
+```elixir
 # Database configurations
 config :avrin_pay, AvrinPay.Setup.Repo,
   username: System.get_env("DB_USERNAME"),
@@ -50,7 +53,10 @@ config :avrin_pay, AvrinPay.Setup.EventStore,
   schema: "event_store",
   hostname: System.get_env("EVENT_STORE_HOSTNAME"),
   pool_size: 10
-  ```
+```
+
+A similar AvrinPay.Setup.Repo and AvrinPay.Setup.EventStore coniguration should be set in your runtime.exs
+
 
 In your mix.exs file under
 ```elixir
