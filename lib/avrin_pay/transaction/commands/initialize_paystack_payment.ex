@@ -1,6 +1,8 @@
 defmodule AvrinPay.Transaction.Commands.InitializePaystackPayment do
   use Ash.Resource, domain: AvrinPay.Transaction
 
+  require Logger
+
   attributes do
     attribute :payment_id, :uuid, allow_nil?: false, primary_key?: true, default: &Ash.UUID.generate/0
     attribute :amount, :integer, allow_nil?: false, description: "The amount in kobo"
@@ -25,7 +27,12 @@ defmodule AvrinPay.Transaction.Commands.InitializePaystackPayment do
             paystack_response = Map.from_struct(paystack_response_struct)
             Ash.Changeset.change_attribute(changeset, :paystack_response, paystack_response)
 
-          _ ->
+          {:ok, paystack_response_struct} ->
+            Logger.error(paystack_response_struct)
+            Ash.Changeset.add_error(changeset, "Paystack API Error")
+
+          {:error, error} ->
+            Logger.error(error)
             Ash.Changeset.add_error(changeset, "Paystack API Error")
         end
       end
