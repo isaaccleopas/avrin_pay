@@ -7,7 +7,7 @@ defmodule AvrinPay.Transaction.ExternalServices.PaystackServiceManager do
       end
     else
       {:ok,
-      Response: %Paystack.Response{
+      %Paystack.Response{
         success: true,
         message: "Authorization URL created",
         data: %{
