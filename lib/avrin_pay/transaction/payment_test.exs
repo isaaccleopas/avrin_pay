@@ -1,6 +1,6 @@
 defmodule AvrinPay.Transaction.PaymentTest do
   alias AvrinPay.Setup.Application
-  alias AvrinPay.Transaction.Events.PaystackPaymentInitializedV1
+  alias AvrinPay.Transaction.V1.Events.PaystackPaymentInitialized
   use AvrinPay.DataCase
 
   import Commanded.Assertions.EventAssertions
@@ -16,7 +16,7 @@ defmodule AvrinPay.Transaction.PaymentTest do
 
       assert_receive_event(
         Application,
-        PaystackPaymentInitializedV1,
+        PaystackPaymentInitialized,
         fn event -> event.payment_id == command.payment_id end,
         fn event ->
           assert event.email == command.email

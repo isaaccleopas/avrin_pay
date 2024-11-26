@@ -1,4 +1,4 @@
-defmodule AvrinPay.Transaction.Events.PaystackPaymentInitializedV1 do
+defmodule AvrinPay.Transaction.V1.Events.PaystackPaymentInitialized do
   use Ash.Resource, domain: AvrinPay.Transaction
 
   @derive {Jason.Encoder, only: [:payment_id, :amount, :email, :callback_url, :paystack_authorization_url, :paystack_response]}

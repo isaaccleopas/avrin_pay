@@ -10,7 +10,7 @@ defmodule AvrinPay.Transaction do
     end
 
     # Events
-    resource AvrinPay.Transaction.Events.PaystackPaymentInitializedV1
+    resource AvrinPay.Transaction.V1.Events.PaystackPaymentInitialized
 
     # Aggregate
     resource AvrinPay.Transaction.Payment

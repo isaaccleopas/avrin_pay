@@ -2,7 +2,7 @@ defmodule AvrinPay.Transaction.Payment do
   use Ash.Resource, domain: AvrinPay.Transaction
   use Commanded.Commands.Router
 
-  alias AvrinPay.Transaction.Events.PaystackPaymentInitializedV1
+  alias AvrinPay.Transaction.V1.Events.PaystackPaymentInitialized
   alias AvrinPay.Transaction.Commands.InitializePaystackPayment
 
   dispatch(InitializePaystackPayment, to: __MODULE__, identity: :payment_id)
@@ -13,7 +13,7 @@ defmodule AvrinPay.Transaction.Payment do
   end
 
   def execute(_aggregate_state, %InitializePaystackPayment{} = command) do
-    PaystackPaymentInitializedV1.create(%{
+    PaystackPaymentInitialized.create(%{
       payment_id: command.payment_id,
       amount: command.amount,
       email: command.email,
