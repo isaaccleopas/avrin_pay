@@ -5,21 +5,21 @@ defmodule AvrinPay.Setup.Application do
 
   use Application
 
-  use Commanded.Application,
-    otp_app: :avrin_pay,
-    event_store: [
-      adapter: Commanded.EventStore.Adapters.EventStore,
-      event_store: AvrinPay.Setup.EventStore
-    ]
+  # use Commanded.Application,
+  #   otp_app: :avrin_pay,
+  #   event_store: [
+  #     adapter: Commanded.EventStore.Adapters.EventStore,
+  #     event_store: AvrinPay.Setup.EventStore
+  #   ]
 
-  router(AvrinPay.Transaction.Payment)
+  # router(AvrinPay.Transaction.Payment)
 
   @impl true
   def start(_type, _args) do
     children = [
-      AvrinPay.Setup.Repo,
+      # AvrinPay.Setup.Repo,
       # Register Application
-      __MODULE__,
+      # __MODULE__,
       AvrinPay.Transaction.Supervisor
     ]
 
