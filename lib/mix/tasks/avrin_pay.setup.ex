@@ -6,8 +6,8 @@ defmodule Mix.Tasks.AvrinPay.Setup do
     Mix.Task.run("app.start", [])
 
     # Create and migrate the repo
-    # Mix.Task.run("ecto.create", ["--repo", "AvrinPay.Setup.Repo"])
-    # Mix.Task.run("ecto.migrate", ["--repo", "AvrinPay.Setup.Repo"])
+    Mix.Task.run("ecto.create", ["--repo", "AvrinPay.Setup.Repo"])
+    Mix.Task.run("ecto.migrate", ["--repo", "AvrinPay.Setup.Repo"])
 
     # # Create and init the event store
     # Mix.Task.run("event_store.create", ["--eventstore", "AvrinPay.Setup.EventStore"])

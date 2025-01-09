@@ -17,7 +17,7 @@ defmodule AvrinPay.Setup.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # AvrinPay.Setup.Repo,
+      AvrinPay.Setup.Repo,
       # Register Application
       # __MODULE__,
       AvrinPay.Transaction.Supervisor

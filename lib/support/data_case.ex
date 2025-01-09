@@ -19,7 +19,7 @@ defmodule AvrinPay.DataCase do
 
   using do
     quote do
-      # alias AvrinPay.Setup.Repo
+      alias AvrinPay.Setup.Repo
 
       import Ecto
       import Ecto.Changeset
@@ -37,8 +37,8 @@ defmodule AvrinPay.DataCase do
   Sets up the sandbox based on the test tags.
   """
   def setup_sandbox(tags) do
-    # pid = Ecto.Adapters.SQL.Sandbox.start_owner!(AvrinPay.Setup.Repo, shared: not tags[:async])
-    # on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
+    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(AvrinPay.Setup.Repo, shared: not tags[:async])
+    on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
   end
 
   @doc """
